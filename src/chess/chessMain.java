@@ -1,5 +1,9 @@
 package chess;
 
+import chess.errors.Errors;
+import chess.services.ChessService;
+import chess.services.IChessService;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package chess;
+package chess.errors;
 
 public enum Errors implements ErrorCode {
     //program boyu fırlatılacak hatalar burda toplandı

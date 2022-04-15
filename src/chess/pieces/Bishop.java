@@ -1,4 +1,4 @@
-package chess;
+package chess.pieces;
 
 public class Bishop extends ChessPieces{
     public Bishop() {

@@ -1,4 +1,7 @@
-package chess;
+package chess.services;
+
+import chess.*;
+import chess.pieces.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

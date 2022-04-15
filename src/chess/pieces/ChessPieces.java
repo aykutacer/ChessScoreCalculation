@@ -1,4 +1,4 @@
-package chess;
+package chess.pieces;
 
 public abstract class ChessPieces {
     private Boolean color = Boolean.FALSE; ///0 beyaz 1 siyah

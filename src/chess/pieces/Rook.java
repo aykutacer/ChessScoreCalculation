@@ -1,4 +1,4 @@
-package chess;
+package chess.pieces;
 
 public class Rook extends ChessPieces{
     public Rook() {
