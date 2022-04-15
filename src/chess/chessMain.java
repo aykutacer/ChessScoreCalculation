@@ -20,7 +20,9 @@ public class chessMain {
     public static void main(String[] args) throws Exception {
 
         try {
+            //Dosyayı okumak için BufferedReader kullanıyoruz
             BufferedReader reader = new BufferedReader(new FileReader(invariants.FILE_NAME));
+            //okuduğumuz stringi char dizisine çeviriyoruz
             textToRead = reader.readLine().toCharArray();
             if (textToRead.length > 128) {
                 throw new Exception(Errors.FAZLA_BOYUT_HATASI.getKod());

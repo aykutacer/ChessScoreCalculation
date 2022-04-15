@@ -33,6 +33,8 @@ public class ChessService implements IChessService {
 
         for (int i = 0; i < invariants.LINE; i++) {
             for (int t = 0; t < invariants.COLUMN; t++) {
+                //matrisimize char dizimizden elemanları yerleştiriyoruz yani aslında burda 8x8 satranç tahtamıza taşlarımızı
+                // text dosyasında verilen düzende yerleştiriyoruz
                 chessBoard[i][t] = String.valueOf(textToRead[textIndex]) + String.valueOf(textToRead[textIndex + 1]);
                 textIndex += 2;
             }
@@ -47,6 +49,7 @@ public class ChessService implements IChessService {
         for (int i = 0; i < invariants.LINE; i++) {
             for (int j = 0; j < invariants.COLUMN; j++) {
                 switch (chessBoard[i][j].substring(0, 1)) {
+                    //8*8 satranç tahtamızın her bir karesini gezerek üzerlerindeki taşlara göre işlem yapıyoruz
                     case "k":
                         rookCheck(chessBoard, i, j, chessBoard[i][j]);
                         break;
@@ -97,6 +100,8 @@ public class ChessService implements IChessService {
     }
 
     private void whitePiecesScenarios(String chessBoard) {
+        //kontrollerde buraya giriyorsa rakip taştan kendisine bir tehdit var demektir. Bunun için tehdit edilen taşın ne olduğunu bulup
+        //tehdit sayısını 1 arttırıp güvende taş sayısını 1 azaltıyoruz.
         if (invariants.WHITE_ROOK.equals(chessBoard)) {
             rookWhite.setNumberOfUnderThreat(rookWhite.getNumberOfUnderThreat() + 1);
             rookWhite.setNumberOfSafe(rookWhite.getNumberOfSafe() - 1);
@@ -112,13 +117,15 @@ public class ChessService implements IChessService {
         } else if (invariants.WHITE_KING.equals(chessBoard)) {
             kingWhite.setNumberOfUnderThreat(kingWhite.getNumberOfUnderThreat() + 1);
             kingWhite.setNumberOfSafe(kingWhite.getNumberOfSafe() - 1);
-        }else if (invariants.WHITE_PAWN.equals(chessBoard)) {
+        } else if (invariants.WHITE_PAWN.equals(chessBoard)) {
             pawnWhite.setNumberOfUnderThreat(pawnWhite.getNumberOfUnderThreat() + 1);
             pawnWhite.setNumberOfSafe(pawnWhite.getNumberOfSafe() - 1);
         }
     }
 
     private void blackPiecesScenarios(String chessBoard) {
+        //kontrollerde buraya giriyorsa rakip taştan kendisine bir tehdit var demektir. Bunun için tehdit edilen taşın ne olduğunu bulup
+        //tehdit sayısını 1 arttırıp güvende taş sayısını 1 azaltıyoruz.
         if (invariants.BLACK_ROOK.equals(chessBoard)) {
             rookBlack.setNumberOfUnderThreat(rookBlack.getNumberOfUnderThreat() + 1);
             rookBlack.setNumberOfSafe(rookBlack.getNumberOfSafe() - 1);
@@ -134,13 +141,15 @@ public class ChessService implements IChessService {
         } else if (invariants.BLACK_KING.equals(chessBoard)) {
             kingBlack.setNumberOfUnderThreat(kingBlack.getNumberOfUnderThreat() + 1);
             kingBlack.setNumberOfSafe(kingBlack.getNumberOfSafe() - 1);
-        }else if (invariants.BLACK_PAWN.equals(chessBoard)) {
+        } else if (invariants.BLACK_PAWN.equals(chessBoard)) {
             pawnBlack.setNumberOfUnderThreat(pawnBlack.getNumberOfUnderThreat() + 1);
             pawnBlack.setNumberOfSafe(pawnBlack.getNumberOfSafe() - 1);
         }
     }
 
     private void rookCheck(String[][] chessBoard, int i, int j, String pieces) {
+        //kale bütün tahta boyunca ileri,geri,sağ ve sol gidebilir bunun kontrolünü yapıyoruz. Burada eğer hareket güzergahında kendi renginde taş varsa
+        // bir işlem yaptırmamız lazım. Eğer karşı renkte bir taş varsa o taşa tehdit olacaktır.
         String color = "";
 
         if (pieces.equals(invariants.BLACK_ROOK)) {
@@ -148,6 +157,7 @@ public class ChessService implements IChessService {
         } else {
             color = invariants.WHITE;
         }
+        //sağa doğru kontrolümüzü yapıyoruz
         for (int controlToTheRight = j + 1; controlToTheRight < invariants.BOARD_BORDER; controlToTheRight++) {
             if (chessBoard[i][controlToTheRight] != null && chessBoard[i][controlToTheRight].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
@@ -159,7 +169,7 @@ public class ChessService implements IChessService {
                 }
             }
         }
-
+        //sola doğru kontrolümüzü yapıyoruz
         for (int controlToTheLeft = j - 1; controlToTheLeft >= 0; controlToTheLeft--) {
             if (chessBoard[i][controlToTheLeft] != null && chessBoard[i][controlToTheLeft].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
@@ -171,6 +181,7 @@ public class ChessService implements IChessService {
                 }
             }
         }
+        //aşağı doğru kontrolümüzü yapıyoruz
         for (int controlToTheDown = i + 1; controlToTheDown < invariants.BOARD_BORDER; controlToTheDown++) {
             if (chessBoard[controlToTheDown][j] != null && chessBoard[controlToTheDown][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
@@ -182,7 +193,7 @@ public class ChessService implements IChessService {
                 }
             }
         }
-
+        //yukarı doğru kontrolümüzü yapıyoruz
         for (int controlToTheUp = i - 1; controlToTheUp >= 0; controlToTheUp--) {
             if (chessBoard[controlToTheUp][j] != null && chessBoard[controlToTheUp][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
@@ -198,6 +209,7 @@ public class ChessService implements IChessService {
     }
 
     private void bishopCheck(String[][] chessBoard, int i, int j, String pieces) {
+        //fil bütün tahta boyunca çapraz olarak hareket eder
         int line = i;
         int column = j;
         String color = "";
@@ -208,13 +220,13 @@ public class ChessService implements IChessService {
             color = invariants.WHITE;
         }
 
-        for (int rightDownControl = 0; rightDownControl < 7; rightDownControl++) {
+        for (int rightDownControl = 0; rightDownControl < invariants.MAX_BISHOP_QUEEN_MOVE; rightDownControl++) {
             line++;
             column++;
 
-            if (line<invariants.BOARD_BORDER && column<invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
+            if (line < invariants.BOARD_BORDER && column < invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
-            } else if (line<invariants.BOARD_BORDER && column<invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
+            } else if (line < invariants.BOARD_BORDER && column < invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
                 } else {
@@ -225,7 +237,7 @@ public class ChessService implements IChessService {
         line = i;
         column = j;
 
-        for (int leftUpControl = 0; leftUpControl < 7; leftUpControl++) {
+        for (int leftUpControl = 0; leftUpControl < invariants.MAX_BISHOP_QUEEN_MOVE; leftUpControl++) {
             line--;
             column--;
             if (line >= 0 && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
@@ -240,12 +252,12 @@ public class ChessService implements IChessService {
         }
         line = i;
         column = j;
-        for (int leftDownControl = 0; leftDownControl < 7; leftDownControl++) {
+        for (int leftDownControl = 0; leftDownControl < invariants.MAX_BISHOP_QUEEN_MOVE; leftDownControl++) {
             line++;
             column--;
-            if (line<invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
+            if (line < invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
-            } else if (line<invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
+            } else if (line < invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
                 } else {
@@ -255,12 +267,12 @@ public class ChessService implements IChessService {
         }
         line = i;
         column = j;
-        for (int rightUpControl = 0; rightUpControl < 7; rightUpControl++) {
+        for (int rightUpControl = 0; rightUpControl < invariants.MAX_BISHOP_QUEEN_MOVE; rightUpControl++) {
             line--;
             column++;
-            if (column<invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
+            if (column < invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
-            } else if (column<invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
+            } else if (column < invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
                 } else {
@@ -271,6 +283,7 @@ public class ChessService implements IChessService {
     }
 
     private void queenCheck(String[][] chessBoard, int i, int j, String pieces) {
+        //vezir hem fil hemde atın özelliklerine sahiptir
         int line = i;
         int column = j;
         String color = "";
@@ -281,13 +294,13 @@ public class ChessService implements IChessService {
             color = invariants.WHITE;
         }
 
-        for (int rightDownControl = 0; rightDownControl < 7; rightDownControl++) {
+        for (int rightDownControl = 0; rightDownControl < invariants.MAX_BISHOP_QUEEN_MOVE; rightDownControl++) {
             line++;
             column++;
 
-            if (line<invariants.BOARD_BORDER && column<invariants.BOARD_BORDER &&  chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
+            if (line < invariants.BOARD_BORDER && column < invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
-            } else if (line<invariants.BOARD_BORDER && column<invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
+            } else if (line < invariants.BOARD_BORDER && column < invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
                 } else {
@@ -298,7 +311,7 @@ public class ChessService implements IChessService {
         line = i;
         column = j;
 
-        for (int leftUpControl = 0; leftUpControl < 7; leftUpControl++) {
+        for (int leftUpControl = 0; leftUpControl < invariants.MAX_BISHOP_QUEEN_MOVE; leftUpControl++) {
             line--;
             column--;
             if (line >= 0 && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
@@ -313,12 +326,12 @@ public class ChessService implements IChessService {
         }
         line = i;
         column = j;
-        for (int leftDownControl = 0; leftDownControl < 7; leftDownControl++) {
+        for (int leftDownControl = 0; leftDownControl < invariants.MAX_BISHOP_QUEEN_MOVE; leftDownControl++) {
             line++;
             column--;
-            if (line<invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
+            if (line < invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
-            } else if (line<invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
+            } else if (line < invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
                 } else {
@@ -328,12 +341,12 @@ public class ChessService implements IChessService {
         }
         line = i;
         column = j;
-        for (int rightUpControl = 0; rightUpControl < 7; rightUpControl++) {
+        for (int rightUpControl = 0; rightUpControl < invariants.MAX_BISHOP_QUEEN_MOVE; rightUpControl++) {
             line--;
             column++;
-            if (column<invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
+            if (column < invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.BLACK : invariants.WHITE)) {
                 break;
-            } else if (column<invariants.BOARD_BORDER &&  line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
+            } else if (column < invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
                 } else {
@@ -390,6 +403,7 @@ public class ChessService implements IChessService {
     }
 
     private void knightCheck(String[][] chessBoard, int i, int j, String pieces) {
+        //at tahtada L şeklinde hareket eder. Hareket alanı üzerinde taş olup olmamasını önemsemez
         String color = "";
 
         if (pieces.equals(invariants.BLACK_KNIGHT)) {

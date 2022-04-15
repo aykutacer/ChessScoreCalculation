@@ -6,6 +6,7 @@ public class invariants {
     public static final int COLUMN = 8;
     public static final int TEXT_INDEX = 0;
     public static final int BOARD_BORDER = 8;
+    public static final int MAX_BISHOP_QUEEN_MOVE = 7;
     public static final String BLACK="s";
     public static final String WHITE="b";
     public static final String BLACK_ROOK = "ks";
