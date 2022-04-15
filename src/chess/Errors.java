@@ -1,14 +1,15 @@
 package chess;
-import chess.ErrorCode;
 
 public enum Errors implements ErrorCode {
-    //program boyu fýrlatýlacak hatalar burda toplandý
-	
-	 DOSYA_BULUNAMADI("dosya bulunamadý");
+    //program boyu fÄ±rlatÄ±lacak hatalar burda toplandÄ±
 
-	
+    DOSYA_BULUNAMADI("dosya bulunamadÄ±"),
+    FAZLA_BOYUT_HATASI("olmasÄ± gerekenden daha fazla veri girildi"),
+    EKSIK_BOYUT_HATASI("olmasÄ± gerekenden daha az veri girildi");
+
+
     private String errorCode;
-    
+
     Errors(String errorCode) {
         this.errorCode = errorCode;
     }

@@ -1,22 +1,39 @@
 package chess;
+
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class chessMain {
+    public static char[] textToRead;
+    public static IChessService chessService = new ChessService();
+    public static List<BigDecimal> totalScores = new ArrayList<BigDecimal>();
 
-	public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-		//chess.txt adlý dosyamýzý içindeki verileri çekmek için okuyoruz
-		File readText = new File("chess.txt");
-		try {
-		BufferedReader reader = new BufferedReader(new FileReader(readText));
-		}catch (FileNotFoundException e) {
-			//eðer chess.txt adlý dosyamýz yoksa hata fýrlatýyoruz
-			throw new Exception(Errors.DOSYA_BULUNAMADI.getKod());				
-		}		
-	}
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(invariants.FILE_NAME));
+            textToRead = reader.readLine().toCharArray();
+            if (textToRead.length > 128) {
+                throw new Exception(Errors.FAZLA_BOYUT_HATASI.getKod());
+            } else if (textToRead.length < 128) {
+                throw new Exception(Errors.EKSIK_BOYUT_HATASI.getKod());
+            } else {
+                totalScores =  chessService.createScore(chessService.getTextToMatris(textToRead));
+            }
+            System.out.println("Beyaz = "+totalScores.get(0));
+            System.out.println("Siyah = "+totalScores.get(1));
+
+        } catch (FileNotFoundException e) {
+            //eÄŸer chess.txt adlÄ± dosyamÄ±z yoksa hata fÄ±rlatÄ±yoruz
+            throw new Exception(Errors.DOSYA_BULUNAMADI.getKod());
+        }
+    }
+
+
 
 }

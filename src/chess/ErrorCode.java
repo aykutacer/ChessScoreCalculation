@@ -1,4 +1,4 @@
 package chess;
 public interface ErrorCode {
-	String getKod();
+    String getKod();
 }
