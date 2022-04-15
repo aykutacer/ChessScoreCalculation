@@ -164,8 +164,10 @@ public class ChessService implements IChessService {
             } else if (chessBoard[i][controlToTheRight] != null && chessBoard[i][controlToTheRight].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[i][controlToTheRight]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[i][controlToTheRight]);
+                    break;
                 }
             }
         }
@@ -176,8 +178,10 @@ public class ChessService implements IChessService {
             } else if (chessBoard[i][controlToTheLeft] != null && chessBoard[i][controlToTheLeft].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[i][controlToTheLeft]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[i][controlToTheLeft]);
+                    break;
                 }
             }
         }
@@ -188,8 +192,10 @@ public class ChessService implements IChessService {
             } else if (chessBoard[controlToTheDown][j] != null && chessBoard[controlToTheDown][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[controlToTheDown][j]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[controlToTheDown][j]);
+                    break;
                 }
             }
         }
@@ -200,8 +206,10 @@ public class ChessService implements IChessService {
             } else if (chessBoard[controlToTheUp][j] != null && chessBoard[controlToTheUp][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[controlToTheUp][j]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[controlToTheUp][j]);
+                    break;
                 }
             }
         }
@@ -229,8 +237,10 @@ public class ChessService implements IChessService {
             } else if (line < invariants.BOARD_BORDER && column < invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[line][column]);
+                    break;
                 }
             }
         }
@@ -245,8 +255,10 @@ public class ChessService implements IChessService {
             } else if (line >= 0 && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[line][column]);
+                    break;
                 }
             }
         }
@@ -260,8 +272,10 @@ public class ChessService implements IChessService {
             } else if (line < invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[line][column]);
+                    break;
                 }
             }
         }
@@ -275,8 +289,10 @@ public class ChessService implements IChessService {
             } else if (column < invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[line][column]);
+                    break;
                 }
             }
         }
@@ -303,8 +319,10 @@ public class ChessService implements IChessService {
             } else if (line < invariants.BOARD_BORDER && column < invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[line][column]);
+                    break;
                 }
             }
         }
@@ -319,8 +337,10 @@ public class ChessService implements IChessService {
             } else if (line >= 0 && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[line][column]);
+                    break;
                 }
             }
         }
@@ -334,8 +354,10 @@ public class ChessService implements IChessService {
             } else if (line < invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[line][column]);
+                    break;
                 }
             }
         }
@@ -349,8 +371,10 @@ public class ChessService implements IChessService {
             } else if (column < invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[line][column]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[line][column]);
+                    break;
                 }
             }
         }
@@ -360,8 +384,10 @@ public class ChessService implements IChessService {
             } else if (chessBoard[i][controlToTheRight] != null && chessBoard[i][controlToTheRight].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[i][controlToTheRight]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[i][controlToTheRight]);
+                    break;
                 }
             }
         }
@@ -372,8 +398,10 @@ public class ChessService implements IChessService {
             } else if (chessBoard[i][controlToTheLeft] != null && chessBoard[i][controlToTheLeft].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[i][controlToTheLeft]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[i][controlToTheLeft]);
+                    break;
                 }
             }
         }
@@ -383,8 +411,10 @@ public class ChessService implements IChessService {
             } else if (chessBoard[controlToTheDown][j] != null && chessBoard[controlToTheDown][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[controlToTheDown][j]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[controlToTheDown][j]);
+                    break;
                 }
             }
         }
@@ -395,8 +425,10 @@ public class ChessService implements IChessService {
             } else if (chessBoard[controlToTheUp][j] != null && chessBoard[controlToTheUp][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
                     whitePiecesScenarios(chessBoard[controlToTheUp][j]);
+                    break;
                 } else {
                     blackPiecesScenarios(chessBoard[controlToTheUp][j]);
+                    break;
                 }
             }
         }
