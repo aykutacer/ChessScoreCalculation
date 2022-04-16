@@ -3,6 +3,8 @@ package chess.services;
 import chess.*;
 import chess.pieces.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,24 +54,31 @@ public class ChessService implements IChessService {
             for (int j = 0; j < invariants.COLUMN; j++) {
                 switch (chessBoard[i][j].substring(0, 1)) {
                     //8*8 satranç tahtamızın her bir karesini gezerek üzerlerindeki taşlara göre işlem yapıyoruz
-                    case "k":
-                        rookCheck(chessBoard, i, j, chessBoard[i][j]);
-                        break;
                     case "a":
                         knightCheck(chessBoard, i, j, chessBoard[i][j]);
-                        break;
-                    case "f":
-                        bishopCheck(chessBoard, i, j, chessBoard[i][j]);
                         break;
                     case "v":
                         queenCheck(chessBoard, i, j, chessBoard[i][j]);
                         break;
-                    case "s":
-                        kingCheck(chessBoard, i, j, chessBoard[i][j]);
-                        break;
                     case "p":
                         pawnCheck(chessBoard, i, j, chessBoard[i][j]);
                         break;
+
+//!!!!!!!Ben sizin isteğinize ek olarak bütün tehditleri hesaplayacak bir yazılım yaptım. Eğer sadece vezir, at ve piyon un oluşturduğu
+// tehditlerin hesaplanmasını istiyorsanız lütfen aşağıdaki tehditleri yorum satırına alınız!!!!!!!!!!
+
+                    /*
+                    case "k":
+                        rookCheck(chessBoard, i, j, chessBoard[i][j]);
+                        break;
+                    case "f":
+                        bishopCheck(chessBoard, i, j, chessBoard[i][j]);
+                        break;
+                    case "s":
+                        kingCheck(chessBoard, i, j, chessBoard[i][j]);
+                        break;
+                       */
+
                     default:
                         break;
                 }
@@ -473,7 +482,7 @@ public class ChessService implements IChessService {
                     whitePiecesScenarios(chessBoard[i][controlToTheRight], i, controlToTheRight);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[i][controlToTheRight],i, controlToTheRight);
+                    blackPiecesScenarios(chessBoard[i][controlToTheRight], i, controlToTheRight);
                     break;
                 }
             }
@@ -646,25 +655,25 @@ public class ChessService implements IChessService {
         //sağ üst 1 kare
         if (j + 1 < invariants.BOARD_BORDER && i - 1 >= 0 && chessBoard[i - 1][j + 1] != null && chessBoard[i - 1][j + 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 1][j + 1], i-1, j+1);
+                whitePiecesScenarios(chessBoard[i - 1][j + 1], i - 1, j + 1);
             } else {
-                blackPiecesScenarios(chessBoard[i - 1][j + 1], i-1, j+1);
+                blackPiecesScenarios(chessBoard[i - 1][j + 1], i - 1, j + 1);
             }
         }
         //sol üst 1 kare
         if (i - 1 >= 0 && j - 1 >= 0 && chessBoard[i - 1][j - 1] != null && chessBoard[i - 1][j - 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 1][j - 1], i-1, j-1);
+                whitePiecesScenarios(chessBoard[i - 1][j - 1], i - 1, j - 1);
             } else {
-                blackPiecesScenarios(chessBoard[i - 1][j - 1], i-1, j-1);
+                blackPiecesScenarios(chessBoard[i - 1][j - 1], i - 1, j - 1);
             }
         }
         //sağ alt 1 kare
         if (i + 1 < invariants.BOARD_BORDER && j + 1 < invariants.BOARD_BORDER && chessBoard[i + 1][j + 1] != null && chessBoard[i + 1][j + 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i + 1][j + 1], i+1, j+1);
+                whitePiecesScenarios(chessBoard[i + 1][j + 1], i + 1, j + 1);
             } else {
-                blackPiecesScenarios(chessBoard[i + 1][j + 1], i+1, j+1);
+                blackPiecesScenarios(chessBoard[i + 1][j + 1], i + 1, j + 1);
             }
         }
         //sol alt 1 kare
@@ -694,13 +703,26 @@ public class ChessService implements IChessService {
 
             //sağ üst 1 kare
             if (j + 1 < invariants.BOARD_BORDER && i - 1 >= 0 && chessBoard[i - 1][j + 1] != null && chessBoard[i - 1][j + 1].substring(1).equals(invariants.BLACK)) {
-                blackPiecesScenarios(chessBoard[i - 1][j + 1],i-1,j+1);
+                blackPiecesScenarios(chessBoard[i - 1][j + 1], i - 1, j + 1);
             }
             //sol üst 1 kare
             if (i - 1 >= 0 && j - 1 >= 0 && chessBoard[i - 1][j - 1] != null && chessBoard[i - 1][j - 1].substring(1).equals(invariants.BLACK)) {
-                blackPiecesScenarios(chessBoard[i - 1][j - 1],i-1,j-1);
+                blackPiecesScenarios(chessBoard[i - 1][j - 1], i - 1, j - 1);
             }
         }
+    }
+
+    public char[] getTextToRead(BufferedReader reader) throws IOException {
+        String readLines = null;
+        for (int i = 0; i < invariants.BOARD_BORDER; i++) {
+            if (readLines == null) {
+                readLines = reader.readLine();
+            } else {
+                readLines = readLines + reader.readLine();
+            }
+        }
+        return readLines.replace(" ","").toCharArray();
+
     }
 
 }
