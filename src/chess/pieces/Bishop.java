@@ -5,7 +5,7 @@ public class Bishop extends ChessPieces{
     }
 
     public Bishop(Boolean color) {
-        setNumberOfSafe(2);
+        setNumberOfSafe(0);
         setNumberOfUnderThreat(0);
         setColor(color);
     }

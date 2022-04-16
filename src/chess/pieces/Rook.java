@@ -5,7 +5,7 @@ public class Rook extends ChessPieces{
     }
 
     public Rook(Boolean color) {
-        setNumberOfSafe(2);
+        setNumberOfSafe(0);
         setNumberOfUnderThreat(0);
         setColor(color);
     }

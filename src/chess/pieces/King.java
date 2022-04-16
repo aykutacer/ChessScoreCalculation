@@ -5,7 +5,7 @@ public class King extends ChessPieces{
     }
 
     public King(Boolean color) {
-        setNumberOfSafe(1);
+        setNumberOfSafe(0);
         setNumberOfUnderThreat(0);
         setColor(color);
     }

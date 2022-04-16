@@ -5,7 +5,7 @@ public class Knight extends ChessPieces {
     }
 
     public Knight(Boolean color) {
-        setNumberOfSafe(2);
+        setNumberOfSafe(0);
         setNumberOfUnderThreat(0);
         setColor(color);
     }

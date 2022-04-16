@@ -5,7 +5,7 @@ public class Queen extends ChessPieces{
     }
 
     public Queen(Boolean color) {
-        setNumberOfSafe(1);
+        setNumberOfSafe(0);
         setNumberOfUnderThreat(0);
         setColor(color);
     }

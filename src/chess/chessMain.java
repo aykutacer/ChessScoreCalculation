@@ -16,6 +16,7 @@ public class chessMain {
     public static char[] textToRead;
     public static IChessService chessService = new ChessService();
     public static List<BigDecimal> totalScores = new ArrayList<BigDecimal>();
+    public static String readLines;
 
     public static void main(String[] args) throws Exception {
 
@@ -23,7 +24,14 @@ public class chessMain {
             //Dosyayı okumak için BufferedReader kullanıyoruz
             BufferedReader reader = new BufferedReader(new FileReader(invariants.FILE_NAME));
             //okuduğumuz stringi char dizisine çeviriyoruz
-            textToRead = reader.readLine().toCharArray();
+            for (int i = 0; i < 8; i++) {
+                if (readLines == null) {
+                    readLines = reader.readLine();
+                } else {
+                    readLines = readLines + reader.readLine();
+                }
+            }
+            textToRead = readLines.replace(" ","").toCharArray();
             if (textToRead.length > 128) {
                 throw new Exception(Errors.FAZLA_BOYUT_HATASI.getKod());
             } else if (textToRead.length < 128) {

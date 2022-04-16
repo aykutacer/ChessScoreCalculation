@@ -40,11 +40,13 @@ public class ChessService implements IChessService {
             }
         }
 
+
         return chessBoard;
     }
 
     public List<BigDecimal> createScore(String[][] chessBoard) {
         List<BigDecimal> totalScores = new ArrayList<BigDecimal>();
+        changePiecesNumber(chessBoard, pawnWhite, knightWhite, bishopWhite, rookWhite, queenWhite, kingWhite, pawnBlack, knightBlack, bishopBlack, rookBlack, queenBlack, kingBlack);
 
         for (int i = 0; i < invariants.LINE; i++) {
             for (int j = 0; j < invariants.COLUMN; j++) {
@@ -74,9 +76,58 @@ public class ChessService implements IChessService {
             }
         }
 
-        totalScores.add(scoreCalculation(pawnWhite, knightWhite, bishopWhite, rookWhite, queenWhite, kingWhite));//beyeaz için hesaplama
+        totalScores.add(scoreCalculation(pawnWhite, knightWhite, bishopWhite, rookWhite, queenWhite, kingWhite));//beyaz için hesaplama
         totalScores.add(scoreCalculation(pawnBlack, knightBlack, bishopBlack, rookBlack, queenBlack, kingBlack));//siyah için hesaplama
         return totalScores;
+
+    }
+
+    private void changePiecesNumber(String[][] chessBoard, Pawn pawnWhite, Knight knightWhite, Bishop bishopWhite, Rook rookWhite, Queen queenWhite, King kingWhite, Pawn pawnBlack, Knight knightBlack, Bishop bishopBlack, Rook rookBlack, Queen queenBlack, King kingBlack) {
+        for (int i = 0; i < invariants.LINE; i++) {
+            for (int j = 0; j < invariants.COLUMN; j++) {
+                switch (chessBoard[i][j]) {
+                    case "kb":
+                        rookWhite.setNumberOfSafe(rookWhite.getNumberOfSafe() + 1);
+                        break;
+                    case "ab":
+                        knightWhite.setNumberOfSafe(knightWhite.getNumberOfSafe() + 1);
+                        break;
+                    case "fb":
+                        bishopWhite.setNumberOfSafe(bishopWhite.getNumberOfSafe() + 1);
+                        break;
+                    case "vb":
+                        queenWhite.setNumberOfSafe(queenWhite.getNumberOfSafe() + 1);
+                        break;
+                    case "sb":
+                        kingWhite.setNumberOfSafe(kingWhite.getNumberOfSafe() + 1);
+                        break;
+                    case "pb":
+                        pawnWhite.setNumberOfSafe(pawnWhite.getNumberOfSafe() + 1);
+                        break;
+                    case "ks":
+                        rookBlack.setNumberOfSafe(rookBlack.getNumberOfSafe() + 1);
+                        break;
+                    case "as":
+                        knightBlack.setNumberOfSafe(knightBlack.getNumberOfSafe() + 1);
+                        break;
+                    case "fs":
+                        bishopBlack.setNumberOfSafe(bishopBlack.getNumberOfSafe() + 1);
+                        break;
+                    case "vs":
+                        queenBlack.setNumberOfSafe(queenBlack.getNumberOfSafe() + 1);
+                        break;
+                    case "ss":
+                        kingBlack.setNumberOfSafe(kingBlack.getNumberOfSafe() + 1);
+                        break;
+                    case "ps":
+                        pawnBlack.setNumberOfSafe(pawnBlack.getNumberOfSafe() + 1);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
 
     }
 
@@ -99,51 +150,87 @@ public class ChessService implements IChessService {
 
     }
 
-    private void whitePiecesScenarios(String chessBoard) {
+    private void whitePiecesScenarios(String chessBoard, int underthreatLine, int underthreatColumn) {
         //kontrollerde buraya giriyorsa rakip taştan kendisine bir tehdit var demektir. Bunun için tehdit edilen taşın ne olduğunu bulup
         //tehdit sayısını 1 arttırıp güvende taş sayısını 1 azaltıyoruz.
         if (invariants.WHITE_ROOK.equals(chessBoard)) {
-            rookWhite.setNumberOfUnderThreat(rookWhite.getNumberOfUnderThreat() + 1);
-            rookWhite.setNumberOfSafe(rookWhite.getNumberOfSafe() - 1);
+            if (rookWhite.getUnderThreatlocation() == null || !rookWhite.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                rookWhite.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                rookWhite.setNumberOfUnderThreat(rookWhite.getNumberOfUnderThreat() + 1);
+                rookWhite.setNumberOfSafe(rookWhite.getNumberOfSafe() - 1);
+            }
         } else if (invariants.WHITE_KNIGHT.equals(chessBoard)) {
-            knightWhite.setNumberOfUnderThreat(knightWhite.getNumberOfUnderThreat() + 1);
-            knightWhite.setNumberOfSafe(knightWhite.getNumberOfSafe() - 1);
+            if (knightWhite.getUnderThreatlocation() == null || !knightWhite.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                knightWhite.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                knightWhite.setNumberOfUnderThreat(knightWhite.getNumberOfUnderThreat() + 1);
+                knightWhite.setNumberOfSafe(knightWhite.getNumberOfSafe() - 1);
+            }
         } else if (invariants.WHITE_BISHOP.equals(chessBoard)) {
-            bishopWhite.setNumberOfUnderThreat(bishopWhite.getNumberOfUnderThreat() + 1);
-            bishopWhite.setNumberOfSafe(bishopWhite.getNumberOfSafe() - 1);
+            if (bishopWhite.getUnderThreatlocation() == null || !bishopWhite.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                bishopWhite.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                bishopWhite.setNumberOfUnderThreat(bishopWhite.getNumberOfUnderThreat() + 1);
+                bishopWhite.setNumberOfSafe(bishopWhite.getNumberOfSafe() - 1);
+            }
         } else if (invariants.WHITE_QUEEN.equals(chessBoard)) {
-            queenWhite.setNumberOfUnderThreat(queenWhite.getNumberOfUnderThreat() + 1);
-            queenWhite.setNumberOfSafe(queenWhite.getNumberOfSafe() - 1);
+            if (queenWhite.getUnderThreatlocation() == null || !queenWhite.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                queenWhite.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                queenWhite.setNumberOfUnderThreat(queenWhite.getNumberOfUnderThreat() + 1);
+                queenWhite.setNumberOfSafe(queenWhite.getNumberOfSafe() - 1);
+            }
         } else if (invariants.WHITE_KING.equals(chessBoard)) {
-            kingWhite.setNumberOfUnderThreat(kingWhite.getNumberOfUnderThreat() + 1);
-            kingWhite.setNumberOfSafe(kingWhite.getNumberOfSafe() - 1);
+            if (kingWhite.getUnderThreatlocation() == null || !kingWhite.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                kingWhite.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                kingWhite.setNumberOfUnderThreat(kingWhite.getNumberOfUnderThreat() + 1);
+                kingWhite.setNumberOfSafe(kingWhite.getNumberOfSafe() - 1);
+            }
         } else if (invariants.WHITE_PAWN.equals(chessBoard)) {
-            pawnWhite.setNumberOfUnderThreat(pawnWhite.getNumberOfUnderThreat() + 1);
-            pawnWhite.setNumberOfSafe(pawnWhite.getNumberOfSafe() - 1);
+            if (pawnWhite.getUnderThreatlocation() == null || !pawnWhite.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                pawnWhite.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                pawnWhite.setNumberOfUnderThreat(pawnWhite.getNumberOfUnderThreat() + 1);
+                pawnWhite.setNumberOfSafe(pawnWhite.getNumberOfSafe() - 1);
+            }
         }
     }
 
-    private void blackPiecesScenarios(String chessBoard) {
+    private void blackPiecesScenarios(String chessBoard, int underthreatLine, int underthreatColumn) {
         //kontrollerde buraya giriyorsa rakip taştan kendisine bir tehdit var demektir. Bunun için tehdit edilen taşın ne olduğunu bulup
         //tehdit sayısını 1 arttırıp güvende taş sayısını 1 azaltıyoruz.
         if (invariants.BLACK_ROOK.equals(chessBoard)) {
-            rookBlack.setNumberOfUnderThreat(rookBlack.getNumberOfUnderThreat() + 1);
-            rookBlack.setNumberOfSafe(rookBlack.getNumberOfSafe() - 1);
+            if (rookBlack.getUnderThreatlocation() == null || !rookBlack.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                rookBlack.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                rookBlack.setNumberOfUnderThreat(rookBlack.getNumberOfUnderThreat() + 1);
+                rookBlack.setNumberOfSafe(rookBlack.getNumberOfSafe() - 1);
+            }
         } else if (invariants.BLACK_KNIGHT.equals(chessBoard)) {
-            knightBlack.setNumberOfUnderThreat(knightBlack.getNumberOfUnderThreat() + 1);
-            knightBlack.setNumberOfSafe(knightBlack.getNumberOfSafe() - 1);
+            if (knightBlack.getUnderThreatlocation() == null || !knightBlack.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                knightBlack.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                knightBlack.setNumberOfUnderThreat(knightBlack.getNumberOfUnderThreat() + 1);
+                knightBlack.setNumberOfSafe(knightBlack.getNumberOfSafe() - 1);
+            }
         } else if (invariants.BLACK_BISHOP.equals(chessBoard)) {
-            bishopBlack.setNumberOfUnderThreat(bishopBlack.getNumberOfUnderThreat() + 1);
-            bishopBlack.setNumberOfSafe(bishopBlack.getNumberOfSafe() - 1);
+            if (bishopBlack.getUnderThreatlocation() == null || !bishopBlack.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                bishopBlack.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                bishopBlack.setNumberOfUnderThreat(bishopBlack.getNumberOfUnderThreat() + 1);
+                bishopBlack.setNumberOfSafe(bishopBlack.getNumberOfSafe() - 1);
+            }
         } else if (invariants.BLACK_QUEEN.equals(chessBoard)) {
-            queenBlack.setNumberOfUnderThreat(queenBlack.getNumberOfUnderThreat() + 1);
-            queenBlack.setNumberOfSafe(queenBlack.getNumberOfSafe() - 1);
+            if (queenBlack.getUnderThreatlocation() == null || !queenBlack.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                queenBlack.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                queenBlack.setNumberOfUnderThreat(queenBlack.getNumberOfUnderThreat() + 1);
+                queenBlack.setNumberOfSafe(queenBlack.getNumberOfSafe() - 1);
+            }
         } else if (invariants.BLACK_KING.equals(chessBoard)) {
-            kingBlack.setNumberOfUnderThreat(kingBlack.getNumberOfUnderThreat() + 1);
-            kingBlack.setNumberOfSafe(kingBlack.getNumberOfSafe() - 1);
+            if (kingBlack.getUnderThreatlocation() == null || !kingBlack.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                kingBlack.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                kingBlack.setNumberOfUnderThreat(kingBlack.getNumberOfUnderThreat() + 1);
+                kingBlack.setNumberOfSafe(kingBlack.getNumberOfSafe() - 1);
+            }
         } else if (invariants.BLACK_PAWN.equals(chessBoard)) {
-            pawnBlack.setNumberOfUnderThreat(pawnBlack.getNumberOfUnderThreat() + 1);
-            pawnBlack.setNumberOfSafe(pawnBlack.getNumberOfSafe() - 1);
+            if (pawnBlack.getUnderThreatlocation() == null || !pawnBlack.getUnderThreatlocation().contains(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn))) {
+                pawnBlack.getUnderThreatlocation().add(String.valueOf(underthreatLine) + String.valueOf(underthreatColumn));
+                pawnBlack.setNumberOfUnderThreat(pawnBlack.getNumberOfUnderThreat() + 1);
+                pawnBlack.setNumberOfSafe(pawnBlack.getNumberOfSafe() - 1);
+            }
         }
     }
 
@@ -163,10 +250,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (chessBoard[i][controlToTheRight] != null && chessBoard[i][controlToTheRight].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[i][controlToTheRight]);
+                    whitePiecesScenarios(chessBoard[i][controlToTheRight], i, controlToTheRight);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[i][controlToTheRight]);
+                    blackPiecesScenarios(chessBoard[i][controlToTheRight], i, controlToTheRight);
                     break;
                 }
             }
@@ -177,10 +264,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (chessBoard[i][controlToTheLeft] != null && chessBoard[i][controlToTheLeft].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[i][controlToTheLeft]);
+                    whitePiecesScenarios(chessBoard[i][controlToTheLeft], i, controlToTheLeft);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[i][controlToTheLeft]);
+                    blackPiecesScenarios(chessBoard[i][controlToTheLeft], i, controlToTheLeft);
                     break;
                 }
             }
@@ -191,10 +278,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (chessBoard[controlToTheDown][j] != null && chessBoard[controlToTheDown][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[controlToTheDown][j]);
+                    whitePiecesScenarios(chessBoard[controlToTheDown][j], controlToTheDown, j);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[controlToTheDown][j]);
+                    blackPiecesScenarios(chessBoard[controlToTheDown][j], controlToTheDown, j);
                     break;
                 }
             }
@@ -205,10 +292,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (chessBoard[controlToTheUp][j] != null && chessBoard[controlToTheUp][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[controlToTheUp][j]);
+                    whitePiecesScenarios(chessBoard[controlToTheUp][j], controlToTheUp, j);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[controlToTheUp][j]);
+                    blackPiecesScenarios(chessBoard[controlToTheUp][j], controlToTheUp, j);
                     break;
                 }
             }
@@ -236,10 +323,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (line < invariants.BOARD_BORDER && column < invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[line][column]);
+                    whitePiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[line][column]);
+                    blackPiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 }
             }
@@ -254,10 +341,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (line >= 0 && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[line][column]);
+                    whitePiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[line][column]);
+                    blackPiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 }
             }
@@ -271,10 +358,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (line < invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[line][column]);
+                    whitePiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[line][column]);
+                    blackPiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 }
             }
@@ -288,10 +375,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (column < invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[line][column]);
+                    whitePiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[line][column]);
+                    blackPiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 }
             }
@@ -318,10 +405,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (line < invariants.BOARD_BORDER && column < invariants.BOARD_BORDER && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[line][column]);
+                    whitePiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[line][column]);
+                    blackPiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 }
             }
@@ -336,10 +423,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (line >= 0 && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[line][column]);
+                    whitePiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[line][column]);
+                    blackPiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 }
             }
@@ -353,10 +440,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (line < invariants.BOARD_BORDER && column >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[line][column]);
+                    whitePiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[line][column]);
+                    blackPiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 }
             }
@@ -370,10 +457,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (column < invariants.BOARD_BORDER && line >= 0 && chessBoard[line][column] != null && chessBoard[line][column].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[line][column]);
+                    whitePiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[line][column]);
+                    blackPiecesScenarios(chessBoard[line][column], line, column);
                     break;
                 }
             }
@@ -383,10 +470,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (chessBoard[i][controlToTheRight] != null && chessBoard[i][controlToTheRight].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[i][controlToTheRight]);
+                    whitePiecesScenarios(chessBoard[i][controlToTheRight], i, controlToTheRight);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[i][controlToTheRight]);
+                    blackPiecesScenarios(chessBoard[i][controlToTheRight],i, controlToTheRight);
                     break;
                 }
             }
@@ -397,10 +484,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (chessBoard[i][controlToTheLeft] != null && chessBoard[i][controlToTheLeft].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[i][controlToTheLeft]);
+                    whitePiecesScenarios(chessBoard[i][controlToTheLeft], i, controlToTheLeft);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[i][controlToTheLeft]);
+                    blackPiecesScenarios(chessBoard[i][controlToTheLeft], i, controlToTheLeft);
                     break;
                 }
             }
@@ -410,10 +497,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (chessBoard[controlToTheDown][j] != null && chessBoard[controlToTheDown][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[controlToTheDown][j]);
+                    whitePiecesScenarios(chessBoard[controlToTheDown][j], controlToTheDown, j);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[controlToTheDown][j]);
+                    blackPiecesScenarios(chessBoard[controlToTheDown][j], controlToTheDown, j);
                     break;
                 }
             }
@@ -424,10 +511,10 @@ public class ChessService implements IChessService {
                 break;
             } else if (chessBoard[controlToTheUp][j] != null && chessBoard[controlToTheUp][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
                 if (color.equals(invariants.BLACK)) {
-                    whitePiecesScenarios(chessBoard[controlToTheUp][j]);
+                    whitePiecesScenarios(chessBoard[controlToTheUp][j], controlToTheUp, j);
                     break;
                 } else {
-                    blackPiecesScenarios(chessBoard[controlToTheUp][j]);
+                    blackPiecesScenarios(chessBoard[controlToTheUp][j], controlToTheUp, j);
                     break;
                 }
             }
@@ -447,70 +534,70 @@ public class ChessService implements IChessService {
         // 2 üst 1 sağ hareketi
         if (i >= 2 && j + 1 < 8 && chessBoard[i - 2][j + 1] != null && chessBoard[i - 2][j + 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 2][j + 1]);
+                whitePiecesScenarios(chessBoard[i - 2][j + 1], i - 2, j + 1);
             } else {
-                blackPiecesScenarios(chessBoard[i - 2][j + 1]);
+                blackPiecesScenarios(chessBoard[i - 2][j + 1], i - 2, j + 1);
             }
         }
 
         // 2 üst 1 sol hareketi
         if (i >= 2 && j >= 1 && chessBoard[i - 2][j - 1] != null && chessBoard[i - 2][j - 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 2][j - 1]);
+                whitePiecesScenarios(chessBoard[i - 2][j - 1], i - 2, j - 1);
             } else {
-                blackPiecesScenarios(chessBoard[i - 2][j - 1]);
+                blackPiecesScenarios(chessBoard[i - 2][j - 1], i - 2, j - 1);
             }
         }
         // 1 üst 2 sağ hareketi
         if (i >= 1 && j + 2 < invariants.BOARD_BORDER && chessBoard[i - 1][j + 2] != null && chessBoard[i - 1][j + 2].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 1][j + 2]);
+                whitePiecesScenarios(chessBoard[i - 1][j + 2], i - 1, j + 2);
             } else {
-                blackPiecesScenarios(chessBoard[i - 1][j + 2]);
+                blackPiecesScenarios(chessBoard[i - 1][j + 2], i - 1, j + 2);
             }
         }
 
         // 1 üst 2 sol hareketi
         if (i >= 1 && j >= 2 && chessBoard[i - 1][j - 2] != null && chessBoard[i - 1][j - 2].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 1][j - 2]);
+                whitePiecesScenarios(chessBoard[i - 1][j - 2], i - 1, j - 2);
             } else {
-                blackPiecesScenarios(chessBoard[i - 1][j - 2]);
+                blackPiecesScenarios(chessBoard[i - 1][j - 2], i - 1, j - 2);
             }
         }
 
         // 2 aşağı 1 sağ hareketi
         if (i + 2 < invariants.BOARD_BORDER && chessBoard[i + 2][j + 1] != null && chessBoard[i + 2][j + 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i + 2][j + 1]);
+                whitePiecesScenarios(chessBoard[i + 2][j + 1], i + 2, j + 1);
             } else {
-                blackPiecesScenarios(chessBoard[i + 2][j + 1]);
+                blackPiecesScenarios(chessBoard[i + 2][j + 1], i + 2, j + 1);
             }
         }
 
         // 2 aşağı 1 sol hareketi
         if (i + 2 < invariants.BOARD_BORDER && j >= 1 && chessBoard[i + 2][j - 1] != null && chessBoard[i + 2][j - 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i + 2][j - 1]);
+                whitePiecesScenarios(chessBoard[i + 2][j - 1], i + 2, j - 1);
             } else {
-                blackPiecesScenarios(chessBoard[i + 2][j - 1]);
+                blackPiecesScenarios(chessBoard[i + 2][j - 1], i + 2, j - 1);
             }
         }
         // 1 aşağı 2 sağ hareketi
         if (i + 1 < invariants.BOARD_BORDER && j + 2 < invariants.BOARD_BORDER && chessBoard[i + 1][j + 2] != null && chessBoard[i + 1][j + 2].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i + 1][j + 2]);
+                whitePiecesScenarios(chessBoard[i + 1][j + 2], i + 1, j + 2);
             } else {
-                blackPiecesScenarios(chessBoard[i + 1][j + 2]);
+                blackPiecesScenarios(chessBoard[i + 1][j + 2], i + 1, j + 2);
             }
         }
 
         // 1 aşağı 2 sol hareketi
         if (i + 1 < invariants.BOARD_BORDER && j >= 2 && chessBoard[i + 1][j - 2] != null && chessBoard[i + 1][j - 2].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i + 1][j - 2]);
+                whitePiecesScenarios(chessBoard[i + 1][j - 2], i + 1, j - 2);
             } else {
-                blackPiecesScenarios(chessBoard[i + 1][j - 2]);
+                blackPiecesScenarios(chessBoard[i + 1][j - 2], i + 1, j - 2);
             }
         }
 
@@ -527,65 +614,65 @@ public class ChessService implements IChessService {
         //yukarı 1 kare
         if (i - 1 >= 0 && chessBoard[i - 1][j] != null && chessBoard[i - 1][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 1][j]);
+                whitePiecesScenarios(chessBoard[i - 1][j], i - 1, j);
             } else {
-                blackPiecesScenarios(chessBoard[i - 1][j]);
+                blackPiecesScenarios(chessBoard[i - 1][j], i - 1, j);
             }
         }
         //aşağı 1 kare
         if (i + 1 < invariants.BOARD_BORDER && chessBoard[i + 1][j] != null && chessBoard[i + 1][j].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i + 1][j]);
+                whitePiecesScenarios(chessBoard[i + 1][j], i + 1, j);
             } else {
-                blackPiecesScenarios(chessBoard[i + 1][j]);
+                blackPiecesScenarios(chessBoard[i + 1][j], i + 1, j);
             }
         }
         //sağa 1 kare
         if (j + 1 < invariants.BOARD_BORDER && chessBoard[i][j + 1] != null && chessBoard[i][j + 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i][j + 1]);
+                whitePiecesScenarios(chessBoard[i][j + 1], i, j + 1);
             } else {
-                blackPiecesScenarios(chessBoard[i][j + 1]);
+                blackPiecesScenarios(chessBoard[i][j + 1], i, j + 1);
             }
         }
         //sola 1 kare
         if (j - 1 >= 0 && chessBoard[i][j - 1] != null && chessBoard[i][j - 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i][j - 1]);
+                whitePiecesScenarios(chessBoard[i][j - 1], i, j - 1);
             } else {
-                blackPiecesScenarios(chessBoard[i][j - 1]);
+                blackPiecesScenarios(chessBoard[i][j - 1], i, j - 1);
             }
         }
         //sağ üst 1 kare
         if (j + 1 < invariants.BOARD_BORDER && i - 1 >= 0 && chessBoard[i - 1][j + 1] != null && chessBoard[i - 1][j + 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 1][j + 1]);
+                whitePiecesScenarios(chessBoard[i - 1][j + 1], i-1, j+1);
             } else {
-                blackPiecesScenarios(chessBoard[i - 1][j + 1]);
+                blackPiecesScenarios(chessBoard[i - 1][j + 1], i-1, j+1);
             }
         }
         //sol üst 1 kare
         if (i - 1 >= 0 && j - 1 >= 0 && chessBoard[i - 1][j - 1] != null && chessBoard[i - 1][j - 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i - 1][j - 1]);
+                whitePiecesScenarios(chessBoard[i - 1][j - 1], i-1, j-1);
             } else {
-                blackPiecesScenarios(chessBoard[i - 1][j - 1]);
+                blackPiecesScenarios(chessBoard[i - 1][j - 1], i-1, j-1);
             }
         }
         //sağ alt 1 kare
         if (i + 1 < invariants.BOARD_BORDER && j + 1 < invariants.BOARD_BORDER && chessBoard[i + 1][j + 1] != null && chessBoard[i + 1][j + 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i + 1][j + 1]);
+                whitePiecesScenarios(chessBoard[i + 1][j + 1], i+1, j+1);
             } else {
-                blackPiecesScenarios(chessBoard[i + 1][j + 1]);
+                blackPiecesScenarios(chessBoard[i + 1][j + 1], i+1, j+1);
             }
         }
         //sol alt 1 kare
         if (i + 1 < invariants.BOARD_BORDER && j - 1 >= 0 && chessBoard[i + 1][j - 1] != null && chessBoard[i + 1][j - 1].substring(1).equals(color.equals(invariants.BLACK) ? invariants.WHITE : invariants.BLACK)) {
             if (color.equals(invariants.BLACK)) {
-                whitePiecesScenarios(chessBoard[i + 1][j - 1]);
+                whitePiecesScenarios(chessBoard[i + 1][j - 1], i + 1, j - 1);
             } else {
-                blackPiecesScenarios(chessBoard[i + 1][j - 1]);
+                blackPiecesScenarios(chessBoard[i + 1][j - 1], i + 1, j - 1);
             }
         }
     }
@@ -596,22 +683,22 @@ public class ChessService implements IChessService {
 
             //sağ alt 1 kare
             if (i + 1 < invariants.BOARD_BORDER && j + 1 < invariants.BOARD_BORDER && chessBoard[i + 1][j + 1] != null && chessBoard[i + 1][j + 1].substring(1).equals(invariants.WHITE)) {
-                whitePiecesScenarios(chessBoard[i + 1][j + 1]);
+                whitePiecesScenarios(chessBoard[i + 1][j + 1], i + 1, j + 1);
             }
             //sol alt 1 kare
             if (i + 1 < invariants.BOARD_BORDER && j - 1 >= 0 && chessBoard[i + 1][j - 1] != null && chessBoard[i + 1][j - 1].substring(1).equals(invariants.WHITE)) {
-                whitePiecesScenarios(chessBoard[i + 1][j - 1]);
+                whitePiecesScenarios(chessBoard[i + 1][j - 1], i + 1, j - 1);
             }
         } else {
             //eğer piyon beyaz renkliyse aşağıdan yukarı hareket edeceği için sadece sağ üst ve sol üstteki taşlara tehdit olacaktır
 
             //sağ üst 1 kare
             if (j + 1 < invariants.BOARD_BORDER && i - 1 >= 0 && chessBoard[i - 1][j + 1] != null && chessBoard[i - 1][j + 1].substring(1).equals(invariants.BLACK)) {
-                blackPiecesScenarios(chessBoard[i - 1][j + 1]);
+                blackPiecesScenarios(chessBoard[i - 1][j + 1],i-1,j+1);
             }
             //sol üst 1 kare
             if (i - 1 >= 0 && j - 1 >= 0 && chessBoard[i - 1][j - 1] != null && chessBoard[i - 1][j - 1].substring(1).equals(invariants.BLACK)) {
-                blackPiecesScenarios(chessBoard[i - 1][j - 1]);
+                blackPiecesScenarios(chessBoard[i - 1][j - 1],i-1,j-1);
             }
         }
     }

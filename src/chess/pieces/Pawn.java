@@ -5,7 +5,7 @@ public class Pawn extends ChessPieces {
     }
 
     public Pawn(Boolean color) {
-        setNumberOfSafe(8);
+        setNumberOfSafe(0);
         setNumberOfUnderThreat(0);
         setColor(color);
     }
